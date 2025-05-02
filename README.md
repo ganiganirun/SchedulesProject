@@ -1,16 +1,13 @@
 # SchedulesProject
 
 ## 요구사항
-1. 사용자는 일정을 생성할 수 있다.
-2. 사용자는 일정을 조회할 수 있다.
-    - 전체 일정 목록을 조회할 수 있다.
-    - 단일 일정(상세)을 조회할 수있다.
-3. 사용자는 일정을 수정할 수 있다.
-4. 사용자는 일정을 삭제할 수 있다.
-5. 일정은 아래와 같은 필드를 가진다.
-    - 일정 제목(title), 일정 내용(content), 작성일(createdAt), 수정일(updatedAt), 작성자ID(writerId)
-    - 작성일, 수정일 필드는 JPA Auditing을 활용하여 적용한다.
+1. 생성한 일정에 댓글을 남길 수 있다.
+   - 댓글과 일정은 연간관계를 가진다.
+2. 댓글을 저장, 조회, 수정, 삭제 할 수 있다.
+3. 댓글은 아래와 같은 필드를 가진다.
+   - 댓글 내용(content) , 작성일(createdAt), 수정일(updatedAt), 작성자ID(writerId), 일저ID(scheduleId)
+   - 작성일, 수정일 필드는 JPA Auditing을 활용하여 적용한다.
+
 
 
 ## API
-https://documenter.getpostman.com/view/43187440/2sB2j4fB6C
