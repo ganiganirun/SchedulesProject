@@ -10,3 +10,7 @@
 5. 일정은 아래와 같은 필드를 가진다.
     - 일정 제목(title), 일정 내용(content), 작성일(createdAt), 수정일(updatedAt), 작성자ID(writerId)
     - 작성일, 수정일 필드는 JPA Auditing을 활용하여 적용한다.
+
+
+## API
+https://documenter.getpostman.com/view/43187440/2sB2j4fB6C
