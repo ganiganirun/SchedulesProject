@@ -27,6 +27,21 @@ public class CommentResponseDto {
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
+    public static class Get{
+
+        private Long id;
+
+        private Long writerId;
+
+        private String content;
+
+        private LocalDateTime createdAt;
+
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class Update{
 
         private Long id;

@@ -1,6 +1,8 @@
 package com.example.schedulesproject.domain.schedule.dto.response;
 
+import com.example.schedulesproject.domain.comment.dto.response.CommentResponseDto;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,6 +35,8 @@ public class ScheduleResponseDto {
 
         private LocalDateTime updatedAt;
 
+        private Long countComment;
+
     }
 
     @Getter
@@ -47,6 +51,8 @@ public class ScheduleResponseDto {
         private String content;
 
         private LocalDateTime updatedAt;
+
+        private List<CommentResponseDto.Get> commentList;
 
     }
 
