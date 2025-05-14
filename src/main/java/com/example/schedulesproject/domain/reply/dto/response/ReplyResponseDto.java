@@ -1,14 +1,11 @@
-package com.example.schedulesproject.domain.comment.dto.response;
+package com.example.schedulesproject.domain.reply.dto.response;
 
-import com.example.schedulesproject.domain.reply.dto.response.ReplyResponseDto;
 import java.time.LocalDateTime;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
-public class CommentResponseDto {
+public class ReplyResponseDto {
 
     @Getter
     @AllArgsConstructor
@@ -22,8 +19,6 @@ public class CommentResponseDto {
         private String content;
 
         private LocalDateTime createdAt;
-
-        private Long scheduleId;
     }
 
     @Getter
@@ -38,9 +33,6 @@ public class CommentResponseDto {
         private String content;
 
         private LocalDateTime createdAt;
-
-        private List<ReplyResponseDto.Get> replyList;
-
     }
 
     @Getter
@@ -55,8 +47,6 @@ public class CommentResponseDto {
         private String content;
 
         private LocalDateTime updatedAt;
-
-        private Long scheduleId;
     }
 
 }

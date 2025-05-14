@@ -6,8 +6,11 @@ import com.example.schedulesproject.domain.comment.dto.response.CommentResponseD
 import com.example.schedulesproject.domain.comment.dto.response.CommentResponseDto.Update;
 import com.example.schedulesproject.domain.comment.entity.Comment;
 import com.example.schedulesproject.domain.comment.repository.CommentRepository;
+import com.example.schedulesproject.domain.reply.entity.Reply;
+import com.example.schedulesproject.domain.reply.repository.ReplyRepository;
 import com.example.schedulesproject.domain.schedule.entity.Schedule;
 import com.example.schedulesproject.domain.schedule.repository.ScheduleRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +22,8 @@ public class CommentService {
     private final CommentRepository commentRepository;
 
     private final ScheduleRepository scheduleRepository;
+
+    private final ReplyRepository replyRepository;
 
     public CommentResponseDto.Add createComment(Long scheduleId, Add requestDto) {
 
@@ -74,6 +79,11 @@ public class CommentService {
 
     @Transactional
     public void deleteComment(Long commentId) {
+
+        List<Reply> replyList = replyRepository.findAllByCommentIdOrderByCreatedAtAsc(
+                commentId);
+
+        replyRepository.deleteAll(replyList);
 
         Comment findComment = commentRepository.findByIdOrElseThrow(commentId);
 

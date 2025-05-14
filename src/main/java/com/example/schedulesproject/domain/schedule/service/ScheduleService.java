@@ -1,7 +1,11 @@
 package com.example.schedulesproject.domain.schedule.service;
 
 import com.example.schedulesproject.domain.comment.dto.response.CommentResponseDto.Get;
+import com.example.schedulesproject.domain.comment.entity.Comment;
 import com.example.schedulesproject.domain.comment.repository.CommentRepository;
+import com.example.schedulesproject.domain.reply.dto.response.ReplyResponseDto;
+import com.example.schedulesproject.domain.reply.entity.Reply;
+import com.example.schedulesproject.domain.reply.repository.ReplyRepository;
 import com.example.schedulesproject.domain.schedule.dto.request.ScheduleRequestDto;
 import com.example.schedulesproject.domain.schedule.dto.request.ScheduleRequestDto.Update;
 import com.example.schedulesproject.domain.schedule.dto.response.ScheduleResponseDto;
@@ -22,6 +26,7 @@ public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
     private final CommentRepository commentRepository;
+    private final ReplyRepository replyRepository;
 
     public ScheduleResponseDto.Add save(ScheduleRequestDto.Add requestDto) {
 
@@ -42,6 +47,8 @@ public class ScheduleService {
     }
 
 
+
+    // 모든 게시물 조회
     @Transactional(readOnly = true)
     public Page<ScheduleResponseDto.All> findAll(Pageable pageable) {
 
@@ -61,13 +68,32 @@ public class ScheduleService {
 
     }
 
+    // 단건 조회
+    @Transactional(readOnly = true)
     public ScheduleResponseDto.Single findById(Long scheduleId) {
 
         Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(scheduleId);
 
+
         List<Get> commentList = commentRepository.findAllByScheduleIdOrderByCreatedAtAsc(scheduleId)
-                .stream().map(comment -> new Get(comment.getId(), comment.getWriterId(),
-                        comment.getContent(), comment.getCreatedAt())).toList();
+                .stream().map(comment -> new Get(
+                        comment.getId(),
+                        comment.getWriterId(),
+                        comment.getContent(),
+                        comment.getCreatedAt(),
+                        replyRepository.findAllByCommentIdOrderByCreatedAtAsc(comment.getId())
+                                .stream()
+                                .map(reply ->
+                                        new ReplyResponseDto.Get(
+                                                reply.getId(),
+                                                reply.getWriterId(),
+                                                reply.getContent(),
+                                                reply.getCreatedAt())).toList()
+                )).toList();
+
+
+
+
 
         return new Single(
                 findSchedule.getWriterId(),
@@ -96,6 +122,16 @@ public class ScheduleService {
 
     @Transactional
     public void deleteSchedule(Long scheduleId) {
+
+        List<Reply> replyList = replyRepository.findAllByScheduleId(scheduleId);
+
+        replyRepository.deleteAll(replyList);
+
+        List<Comment> commentList = commentRepository.findAllByScheduleIdOrderByCreatedAtAsc(
+                scheduleId);
+
+        commentRepository.deleteAll(commentList);
+
 
         Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(scheduleId);
 
